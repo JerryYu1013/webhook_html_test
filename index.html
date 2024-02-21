@@ -10,11 +10,28 @@
     <div id="message"></div>
 
     <script>
-        // 接收从 Python 发送的消息，并显示在页面上
-        function receiveMessage(message) {
+        // 创建 WebSocket 连接
+        const socket = new WebSocket('ws://localhost:5000/ws');  // 替换成您的应用程序运行的 WebSocket 地址
+
+        // 当连接建立时触发
+        socket.onopen = function(event) {
+            console.log('WebSocket 连接已建立');
+        };
+
+        // 当接收到消息时触发
+        socket.onmessage = function(event) {
+            const message = event.data;
+            console.log('收到消息:', message);
+
+            // 在页面上显示接收到的消息
             var messageDiv = document.getElementById('message');
             messageDiv.innerText = message;
-        }
+        };
+
+        // 当连接关闭时触发
+        socket.onclose = function(event) {
+            console.log('WebSocket 连接已关闭');
+        };
     </script>
 </body>
 </html>
